@@ -1,0 +1,38 @@
+
+services:
+  mongo:
+    image: mongo
+    container_name: mongo-container
+    volumes:
+      - mongo-data:/data/db
+    ports:
+      - "27017:27017" 
+
+  server:
+    build: ./server
+    container_name: server-container
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGODB_URI=add url atlase
+    volumes:
+      - ./server:/app
+      - /server/node_modules
+    depends_on:
+      - mongo
+
+  client:
+    build: ./client
+    container_name: client-container
+    ports:
+      - "5173:5173"
+    depends_on:
+      - server
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./client:/app
+      - /client/node_modules
+
+volumes:
+  mongo-data:
