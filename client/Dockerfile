@@ -1,4 +1,4 @@
-FROM node:20
+FROM node:20-alpine3.19 //base image must use that
 
 WORKDIR /app
 
